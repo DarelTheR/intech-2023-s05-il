@@ -52,7 +52,7 @@ public class EcritureComptableService {
 	 * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au débit
 	 */
 	public BigDecimal getTotalDebit(EcritureComptable ecriture) {
-		BigDecimal vRetour = BigDecimal.ZERO;
+		BigDecimal vRetour = BigDecimal.ZERO.setScale(2);
 		for (LigneEcritureComptable vLigneEcritureComptable : ecriture.getListLigneEcriture()) {
 			if (vLigneEcritureComptable.getDebit() != null) {
 				vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
@@ -68,7 +68,7 @@ public class EcritureComptableService {
 	 *         crédit
 	 */
 	public BigDecimal getTotalCredit(EcritureComptable ecriture) {
-        BigDecimal vRetour = BigDecimal.ZERO;
+        BigDecimal vRetour = BigDecimal.ZERO.setScale(2);
         for (LigneEcritureComptable vLigneEcritureComptable : ecriture.getListLigneEcriture()) {
             if (vLigneEcritureComptable.getCredit() != null) {
                 vRetour = vRetour.add(vLigneEcritureComptable.getCredit());
