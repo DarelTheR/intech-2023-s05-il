@@ -26,15 +26,15 @@ public class PlayerController {
 	public List<Player> getPlayers() {
 		return playerService.getPlayers();
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Player> getPlayer(@PathVariable(name = "id") Integer id) {
 		Optional<Player> player = playerService.getPlayer(id);
-		if(player.isPresent()) {
+		if (player.isPresent()) {
 			return ResponseEntity.ok(player.get());
 		} else {
 			return ResponseEntity.notFound().build();
-		}		
+		}
 	}
 
 }
