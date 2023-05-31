@@ -19,13 +19,14 @@ public class ComptabiliteManagerImplTest {
 	@Autowired
     private ComptabiliteManagerImpl manager;
 
-    @Test
+	@Test
     public void checkEcritureComptableUnit() throws Exception {
         EcritureComptable vEcritureComptable;
         vEcritureComptable = new EcritureComptable();
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
         vEcritureComptable.setDate(new Date());
         vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.setReference("AC-2023/00001");
         vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                                                                  null, new BigDecimal(123),
                                                                                  null));
