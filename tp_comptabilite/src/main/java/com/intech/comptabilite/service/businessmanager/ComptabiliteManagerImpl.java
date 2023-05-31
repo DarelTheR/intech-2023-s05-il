@@ -1,6 +1,8 @@
 package com.intech.comptabilite.service.businessmanager;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +13,7 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.Pattern;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +43,9 @@ public class ComptabiliteManagerImpl implements ComptabiliteManager {
 	private CompteComptableService compteComptableService;
 	@Autowired
 	private SequenceEcritureComptableService sequenceEcritureComptableService;
+	
+	@Pattern(regexp = "\\p{Alpha}{2}-\\d{4}/\\d{5}")
+    private String reference;
 
 	/**
      * {@inheritDoc}
@@ -139,6 +145,20 @@ public class ComptabiliteManagerImpl implements ComptabiliteManager {
 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...
+        
+        int endCodeIndex = pEcritureComptable.getReference().indexOf("-");
+        String code = pEcritureComptable.getReference().substring(0, endCodeIndex);
+        if (!code.equals(pEcritureComptable.getJournal().getCode())) {
+            throw new FunctionalException(
+                    "La référence ne correspond pas au code journal");
+        }
+        
+        int year = Integer.parseInt(pEcritureComptable.getReference().substring(endCodeIndex + 1, endCodeIndex + 5));
+        LocalDate yearEcriture = pEcritureComptable.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if (yearEcriture.getYear() != year) {
+            throw new FunctionalException(
+                    "La référence ne correspond pas à la date de l'écriture");
+        }
     }
 
 
