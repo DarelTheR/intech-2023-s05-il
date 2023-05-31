@@ -68,14 +68,14 @@ public class EcritureComptableService {
 	 *         crédit
 	 */
 	public BigDecimal getTotalCredit(EcritureComptable ecriture) {
-		BigDecimal vRetour = BigDecimal.ZERO;
-		for (LigneEcritureComptable vLigneEcritureComptable : ecriture.getListLigneEcriture()) {
-			if (vLigneEcritureComptable.getDebit() != null) {
-				vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
-			}
-		}
-		return vRetour;
-	}
+        BigDecimal vRetour = BigDecimal.ZERO;
+        for (LigneEcritureComptable vLigneEcritureComptable : ecriture.getListLigneEcriture()) {
+            if (vLigneEcritureComptable.getCredit() != null) {
+                vRetour = vRetour.add(vLigneEcritureComptable.getCredit());
+            }
+        }
+        return vRetour;
+    }
 
 	/**
 	 * Renvoie si l'écriture est équilibrée (TotalDebit = TotalCrédit)
@@ -83,6 +83,7 @@ public class EcritureComptableService {
 	 * @return boolean
 	 */
 	public boolean isEquilibree(EcritureComptable ecriture) {
+		
 		boolean vRetour = this.getTotalDebit(ecriture).equals(getTotalCredit(ecriture));
 		return vRetour;
 	}
